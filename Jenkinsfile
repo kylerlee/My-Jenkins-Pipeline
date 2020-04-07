@@ -8,6 +8,7 @@ pipeline {
     }
 
 	environment {
+		PYTHONPATH = "${WORKSPACE}"
 		PATH = "C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\bin;${env.PATH}"
 	}
 
@@ -58,7 +59,7 @@ def buildApp() {
 		def appImage = docker.build("hands-on-jenkins/myapp:${BUILD_NUMBER}")
 		docker.withRegistry('http://localhost:5000', 'Global'){
 			appImage.push();
-	}
+		}
 }
 
 
