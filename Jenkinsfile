@@ -57,7 +57,6 @@ pipeline {
 // steps
 def buildApp() {
 		def appImage = docker.build("hands-on-jenkins/myapp:${BUILD_NUMBER}")
-		}
 }
 
 
