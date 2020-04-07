@@ -23,7 +23,7 @@ pipeline {
 		}
 
         stage("Deploy - Dev") {
-            steps { deploy('dev') }
+            steps { deploy('bad stage') }
 		}
 
 		stage("Test - UAT Dev") {
