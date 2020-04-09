@@ -53,11 +53,9 @@ pipeline {
 
 // steps
 def buildApp() {
-	docker.withRegistry('http://localhost:8080/', 'Everything'){
-		def appImage = docker.build("my-jenkins-pipeline/myapp:${BUILD_NUMBER}")
-		appImage.push()
-	}
+	docker.build("my-jenkins-pipeline/myapp:${BUILD_NUMBER}")
 }
+
 def deploy(environment) {
 	def containerName = ''
 	def port = ''
