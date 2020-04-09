@@ -13,7 +13,6 @@ pipeline {
 	}
 
     stages {
-
 		stage("Test - Unit tests") {
 			steps { runUnittests() }
 		}
@@ -49,19 +48,15 @@ pipeline {
 		stage("Test - UAT Live") {
             steps { runUAT(80) }
 		}
-
 	}
 }
 
-
 // steps
 def buildApp() {
-		def appImage = docker.build("hands-on-jenkins/myapp:${BUILD_NUMBER}")
+		def appImage = docker.build("my-jenkins-pipeline/myapp:${BUILD_NUMBER}")
 }
 
-
 def deploy(environment) {
-
 	def containerName = ''
 	def port = ''
 
@@ -84,25 +79,19 @@ def deploy(environment) {
 
 	sh "docker ps -f name=${containerName} -q | xargs --no-run-if-empty docker stop"
 	sh "docker ps -a -f name=${containerName} -q | xargs -r docker rm"
-	sh "docker run -d -p ${port}:5000 --name ${containerName} hands-on-jenkins/myapp:${BUILD_NUMBER}"
-
+	sh "docker run -d -p ${port}:5000 --name ${containerName} my-jenkins-pipeline/myapp:${BUILD_NUMBER}"
 }
 
-
 def approve() {
-
 	timeout(time:1, unit:'DAYS') {
 		input('Do you want to deploy to live?')
 	}
-
 }
-
 
 def runUnittests() {
 	sh "pip3 install --no-cache-dir -r ./requirements.txt"
 	sh "python tests/test_flask_app.py"
 }
-
 
 def runUAT(port) {
 	sh "tests/runUAT.sh ${port}"
